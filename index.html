@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Vote for oyur favourite JS framework</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+		<style>
+			body {
+				padding: 40px;
+			}
+			.text-center {
+				text-align: center;
+			}
+		</style>
+  </head>
+	<body id="app">
+			
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 col-sm-offset-3" v-if="!hasVoted">
+
+						<h1 class="text-center m-y-2">Vote for the best JS Framework</h1>
+
+					
+						<!-- vote -->
+				    <ul class="list-group">
+							<li class="list-group-item" v-for="(index, item) in frameworks | orderBy 'name'">
+						    {{item.name}} <span class="btn btn-success btn-sm pull-xs-right" v-on:click="vote(index)">+1</span>
+							</li>
+						</ul>
+						
+					</div>
+					<div class="col-xs-12 col-sm-6 col-sm-offset-3" v-if="hasVoted">
+						
+						<h1 class="text-center m-y-2">Results</h1>
+
+						<!-- vote results -->
+						<ul class="list-group">
+							<li class="list-group-item" v-for="item in frameworks | orderBy 'votes' -1">
+						    {{item.name}} <span class="label label-default label-pill pull-xs-right" v-if="item.votes > 0">{{item.votes}}</span>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+				
+				<p v-if="frameworks.length == 0" class="text-center">Loading...</p>
+			</div>
+
+	    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.17/vue.js'></script>
+	    <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+	    <script>
+	    	var API_URL = 'https://fav-js.firebaseio.com/'
+		    var frameworks = new Firebase(API_URL + 'frameworks');
+		    var vm = new Vue({
+		      el: '#app',
+		      data: {
+		      	hasVoted: JSON.parse(localStorage.getItem('hasVoted')) || false,
+		      	deviceId: '',
+		        frameworks: []
+		      },
+		      methods: {
+		        vote: function(index) {
+		        	this.hasVoted = true
+		        	localStorage.setItem('hasVoted', true);
+	      			frameworks.child(index).child('votes').set(this.frameworks[index].votes + 1);
+	      			return false;
+		        }
+		      },
+		      ready: function() {
+		      	var _this = this;
+	      		frameworks.on("value", function(snapshot) {
+		      		_this.frameworks = snapshot.val()
+						});
+		      }
+		  });
+	    </script>
+	</body>
+
+</html>

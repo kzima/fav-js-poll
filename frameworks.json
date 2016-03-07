@@ -1,0 +1,14 @@
+{
+	"angualr_1": {"name": "Angular 1.x", "votes": 0}, 
+	"angular_2": {"name": "Angular 2.x", "votes": 0}, 
+	"ember": {"name": "Ember", "votes": 0},
+	"jquery": {"name": "Jquery", "votes": 0}, 
+	"react": {"name": "React", "votes": 0}, 
+	"backbone": {"name": "Backbone", "votes": 0}, 
+	"knockout": {"name": "Knockout", "votes": 0}, 
+	"meteor": {"name": "Meteor", "votes": 0}, 
+	"polymer": {"name": "Polymer", "votes": 0}, 
+	"riot": {"name": "Riot", "votes": 0}, 
+	"reactive": {"name": "Reactive JS", "votes": 0}, 
+	"aurelia": {"name": "Aurelia", "votes": 0}
+}
